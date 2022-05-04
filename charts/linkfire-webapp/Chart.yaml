@@ -1,0 +1,4 @@
+apiVersion: v2
+name: linkfire-webapp
+version: 1.0.0
+description: Runs a basic webserver

@@ -31,5 +31,5 @@ func healthz(w http.ResponseWriter, r *http.Request) {
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusTeapot)
-	fmt.Fprintln(w, "I'm a little teapot")
+	fmt.Fprintln(w, helloMessage)
 }

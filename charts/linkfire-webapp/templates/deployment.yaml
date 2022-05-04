@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkfire-webapp
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ Chart.Name }}
+      app.kubernetes.io/name: {{ Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ Chart.Name }}
+    spec:
+      replicas: 2
+      restartPolicy: Always
+      containers:
+        - name: linkfire-webapp
+          image: falconertc/linkfire-webapp:{{ .Chart.AppVersion }}
+          env:
+            - name: CUSTOM_MESSAGE
+              value: "Just say hello"
+          ports:
+            - name: port
+              containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

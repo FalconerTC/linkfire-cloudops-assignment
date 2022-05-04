@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	listenAddr string
-	healthy    int32
+	listenAddr   string
+	healthy      int32
+	helloMessage = "I'm a little teapot"
 )
 
 func main() {
@@ -22,7 +23,11 @@ func main() {
 
 	logger.Println("Linkfire Go Server")
 
-	logger.Println("Server is starting...")
+	message := os.Getenv("CUSTOM_MESSAGE")
+
+	if len(message) != 0 {
+		helloMessage = message
+	}
 
 	router := http.NewServeMux()
 	router.HandleFunc("/hello", Middle(logger, hello))
