@@ -18,7 +18,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: linkfire-webapp
-          image: "falconertc/linkfire-webapp:v{{ .Chart.AppVersion }}"
+          image: "falconertc/linkfire-webapp:{{ .Values.image.version | default .Chart.AppVersion }}"
           env:
             - name: CUSTOM_MESSAGE
               value: "Just say hello"
