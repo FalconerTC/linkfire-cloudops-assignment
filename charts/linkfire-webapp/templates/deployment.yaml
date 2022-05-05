@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: linkfire-webapp
+  name: {{ include "mychart.name" . }}
+  labels:
+    {{- include "mychart.labels" . | nindent 4 }}
   namespace: default
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app.kubernetes.io/instance: {{ Chart.Name }}
-      app.kubernetes.io/name: {{ Chart.Name }}
+      {{- include "mychart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ Chart.Name }}
+        {{- include "mychart.selectorLabels" . | nindent 8 }}
     spec:
-      replicas: 2
       restartPolicy: Always
       containers:
         - name: linkfire-webapp
-          image: falconertc/linkfire-webapp:{{ .Chart.AppVersion }}
+          image: "falconertc/linkfire-webapp:{{ .Chart.AppVersion }}"
           env:
             - name: CUSTOM_MESSAGE
               value: "Just say hello"
