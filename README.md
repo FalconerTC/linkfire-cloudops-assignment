@@ -13,10 +13,9 @@ docker build -t linkfire-webapp .
 docker run linkfire-webapp
 ```
 
-# Build docker container
+# Releases
+Releases are triggered but Github Actions when a tag is pushed. A docker image will be built and uploaded to Dockerhub
 
-TODO
- - Release and deploy workflows
- - Helm chart
- - Some basic webapp code
- - Cleanup and docs
+
+# Deployments
+Deployments are executed manually using Github Actions. Specify the git tag to deploy

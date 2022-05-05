@@ -1,0 +1,27 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCLOUD_CREDENTIALS_JSON }}'
+
+      - name: Get GKE credentials
+        uses: 'google-github-actions/get-gke-credentials@v0'
+        with:
+          cluster_name: 'k8s-cluster'
+          location: 'us-central1-a'
+
+      - uses: azure/setup-helm@v1
+
+      - name: Run Helm install
+        run: |
+          helm upgrade linkfire-webapp ./charts/linkfire-webapp
